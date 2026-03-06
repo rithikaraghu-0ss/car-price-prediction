@@ -2,13 +2,18 @@ from flask import Flask, render_template, request, jsonify
 import pandas as pd
 import pickle
 import numpy as np
+import os
 
 app = Flask(__name__)
 
-# Load the model
+# Load the model with absolute paths for Vercel
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, 'model', 'car_price_model.pkl')
+DATA_PATH = os.path.join(BASE_DIR, 'data', 'car_data.csv')
+
 try:
-    model = pickle.load(open('model/car_price_model.pkl', 'rb'))
-    df = pd.read_csv('data/car_data.csv')
+    model = pickle.load(open(MODEL_PATH, 'rb'))
+    df = pd.read_csv(DATA_PATH)
 except Exception as e:
     print(f"Error loading model or data: {e}")
 
