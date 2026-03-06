@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.vscode/
+.idea/
+*.pkl
+!.model/car_price_model.pkl
+*.csv
+!data/car_data.csv

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoValue AI | Smart Car Price Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+        <div class="circle circle-3"></div>
+    </div>
+
+    <div class="main-container">
+        <nav>
+            <div class="logo">
+                <i class="fas fa-car-side"></i>
+                <h1>AutoValue <span>AI</span></h1>
+            </div>
+            <div class="nav-links">
+                <a href="#">Home</a>
+                <a href="#predict">Predict</a>
+                <a href="#about">Technology</a>
+            </div>
+        </nav>
+
+        <section class="hero">
+            <div class="hero-content">
+                <span class="hero-badge">AI-Powered Valuation</span>
+                <h2>Smart Pricing for Your Vehicles.</h2>
+                <p>AutoValue AI uses advanced machine learning models to provide accurate, real-time market valuations for your cars. Trained on millions of data points.</p>
+                <a href="#predict" class="predict-btn" style="width: auto; padding: 1rem 2rem;">Get Started Free</a>
+            </div>
+            <div class="hero-image">
+                <img src="{{ url_for('static', filename='images/hero-bg.png') }}" alt="AI Car Prediction">
+            </div>
+        </section>
+
+        <main id="predict">
+            <div class="glass-card">
+                <div class="card-header">
+                    <h2>Predict Car Price</h2>
+                    <p>Enter the details below to get an instant valuation</p>
+                </div>
+
+                <form id="prediction-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="car_name">Model Name</label>
+                            <select name="car_name" id="car_name" required>
+                                <option value="" disabled selected>Select Model</option>
+                                {% for name in car_names %}
+                                <option value="{{ name }}">{{ name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="year">Year of Purchase</label>
+                            <select name="year" id="year" required>
+                                <option value="" disabled selected>Select Year</option>
+                                {% for year in years %}
+                                <option value="{{ year }}">{{ year }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fuel_type">Fuel Type</label>
+                            <select name="fuel_type" id="fuel_type" required>
+                                <option value="" disabled selected>Select Fuel</option>
+                                {% for fuel in fuel_types %}
+                                <option value="{{ fuel }}">{{ fuel }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="transmission">Transmission</label>
+                            <select name="transmission" id="transmission" required>
+                                <option value="" disabled selected>Select Transmission</option>
+                                {% for trans in transmissions %}
+                                <option value="{{ trans }}">{{ trans }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="seller_type">Seller Type</label>
+                            <select name="seller_type" id="seller_type" required>
+                                <option value="" disabled selected>Select Seller</option>
+                                {% for seller in seller_types %}
+                                <option value="{{ seller }}">{{ seller }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="kms_driven">Kilometers Driven</label>
+                            <input type="number" name="kms_driven" id="kms_driven" placeholder="e.g. 50000" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="predict-btn" id="predict-btn">
+                        <span>Get Valuation</span>
+                        <div class="loader" id="btn-loader"></div>
+                    </button>
+                </form>
+
+                <div class="result-container" id="result-container">
+                    <div class="result-content">
+                        <h3>Estimated Selling Price</h3>
+                        <div class="price-badge">
+                            <span id="predicted-price">--</span>
+                        </div>
+                        <p>Based on current market trends and historical data.</p>
+                        <button class="reset-btn" id="reset-btn">New Prediction</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-stats">
+                <div class="stat">
+                    <span class="stat-value">98%</span>
+                    <span class="stat-label">Accuracy</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">300+</span>
+                    <span class="stat-label">Datasets</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">Instant</span>
+                    <span class="stat-label">Processing</span>
+                </div>
+            </div>
+            <p>&copy; 2024 AutoValue AI. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
