@@ -6,16 +6,24 @@ import os
 
 app = Flask(__name__)
 
-# Load the model with absolute paths for Vercel
+# Load the model with robust path handling
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, 'model', 'car_price_model.pkl')
 DATA_PATH = os.path.join(BASE_DIR, 'data', 'car_data.csv')
 
+print(f"DEBUG: BASE_DIR is {BASE_DIR}")
+print(f"DEBUG: Checking file existence: Model={os.path.exists(MODEL_PATH)}, Data={os.path.exists(DATA_PATH)}")
+
+model = None
+df = pd.DataFrame(columns=['Car_Name', 'Year', 'Selling_Price', 'Present_Price', 'Kms_Driven', 'Fuel_Type', 'Seller_Type', 'Transmission', 'Owner'])
+
 try:
-    model = pickle.load(open(MODEL_PATH, 'rb'))
-    df = pd.read_csv(DATA_PATH)
+    if os.path.exists(MODEL_PATH):
+        model = pickle.load(open(MODEL_PATH, 'rb'))
+    if os.path.exists(DATA_PATH):
+        df = pd.read_csv(DATA_PATH)
 except Exception as e:
-    print(f"Error loading model or data: {e}")
+    print(f"ERROR loading model or data: {str(e)}")
 
 @app.route('/')
 def index():
@@ -59,6 +67,18 @@ def predict():
         return jsonify({'prediction': f"₹ {result} Lakhs"})
     except Exception as e:
         return jsonify({'error': str(e)})
+
+@app.route('/health')
+def health():
+    return jsonify({
+        "status": "healthy",
+        "model_loaded": model is not None,
+        "data_loaded": not df.empty,
+        "files": {
+            "model": os.path.exists(MODEL_PATH),
+            "data": os.path.exists(DATA_PATH)
+        }
+    })
 
 if __name__ == '__main__':
     app.run(debug=True)
